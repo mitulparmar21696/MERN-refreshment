@@ -7,7 +7,6 @@ module.exports = async function (req, res, next) {
         const token = req.headers.authorization;
 
         const userDetails = await userModel.find({ auth: token });
-        console.log('token', userDetails)
         if (userDetails.length === 0) {
             sendResponse.sendJsonResponse(req, res, 403, {}, 'Authentication failed.', true)
         } else {

@@ -9,7 +9,9 @@ import Students from '../components/Students/students-list'
 import Teachers from '../components/Teachers/teachers'
 import CreateExamForm from '../components/Exams/create-exam'
 import Exams from '../components/Exams/exams'
-
+import CreateQuestionPaper from '../components/Exams/create-question-paper'
+// import NoPageFound from '../components/404'
+import QuestionPaper from '../components/Exams/question-paper'
 
 const Routes = () => {
     return (
@@ -20,16 +22,10 @@ const Routes = () => {
             <Route exact path="/teachers" component={RequireAuth(Teachers)} />
             <Route exact path="/user-form/:type" component={RequireAuth(UsersForm)} />
             <Route exact path="/students" component={RequireAuth(Students)} />
-
             <Route exact path="/exams" component={RequireAuth(Exams)} />
             <Route exact path="/create-exam" component={RequireAuth(CreateExamForm)} />
-
-            <Route exact path="/create-question-paper" component={RequireAuth(Students)} />
-            <Route exact path="/view-question-paper" component={RequireAuth(Students)} />
-            <Route exact path="/question-paper/:exam_id" component={RequireAuth(Students)} />
-            <Route exact path="/test/:exam_id" component={RequireAuth(Students)} />
-
-
+            <Route exact path="/create-question-paper/:id/:subject_id/:grade_id" component={RequireAuth(CreateQuestionPaper)} />
+            <Route exact path="/question-paper/:id/:subject_id/:grade_id" component={RequireAuth(QuestionPaper)} />
         </App>
     );
 };

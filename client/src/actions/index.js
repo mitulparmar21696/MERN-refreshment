@@ -12,7 +12,11 @@ import {
 } from './configsOfClass'
 
 import {
-    createExam
+    createExam,
+    getExamsList,
+    createQuestionPaper,
+    getQuestionPaper,
+    submittPaper
 } from './exam'
 export {
     signinUser,
@@ -21,5 +25,9 @@ export {
     signoutUser,
     getGradeList,
     getSubjectList,
-    createExam
+    createExam,
+    getExamsList,
+    createQuestionPaper,
+    getQuestionPaper,
+    submittPaper
 }

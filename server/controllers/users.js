@@ -3,17 +3,24 @@ const Response = require('../utils/send-response')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
-
+const studentModel = require('../models/student')
+const teacherModel = require('../models/teacher')
 
 exports.createUsers = async function (req, res, next) {
     try {
+
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if (!re.test(String(req.body.email).toLowerCase())) {
+            return Response.sendJsonResponse(req, res, 500, {}, "Invalid Email", null)
+        }
         let userDetails = req.body
         bcrypt.hash(userDetails.password, saltRounds, async function (err, hash) {
             // Store hash in your password DB.
 
             let userDetailsObj = {
                 name: userDetails.name,
-                email: userDetails.email,
+                email: userDetails.email.toLowerCase(),
                 password: hash,
                 role: userDetails.role
             }
@@ -28,7 +35,7 @@ exports.createUsers = async function (req, res, next) {
                     subject_id: userDetails.subject_id
                 }
                 teacher = await userService.createTeachers(teacherDetails)
-            } else {
+            } else if (userDetails.role === 3) {
                 let studentDetails = {
                     grade_id: userDetails.grade_id,
                     user_id: user._id,
@@ -50,13 +57,30 @@ exports.createUsers = async function (req, res, next) {
 exports.signInUser = async function (req, res, next) {
     try {
         let userDetails = req.body
-
+        userDetails.email = userDetails.email.toLowerCase()
+        console.log('userDetails', userDetails)
         let user = await userService.findUser(userDetails)
         if (user) {
             // Load hash from your password DB.
             bcrypt.compare(userDetails.password, user.password, async function (err, result) {
                 if (result) {
-                    var token = jwt.sign({ _id: user._id, role: user.role }, 'test');
+
+
+                    var grade_id = null
+                    var subject_id = null
+                    if (user.role === 1) {
+
+                    } else if (user.role === 2) {
+                        let teacherdet = await teacherModel.find({ user_id: user._id.toString() })
+                        grade_id = teacherdet[0].grade_id;
+                        subject_id = teacherdet[0].subject_id;
+                    } else {
+                        let studentDet = await studentModel.find({ user_id: user._id.toString() })
+                        grade_id = studentDet[0].grade_id;
+                    }
+
+
+                    var token = jwt.sign({ _id: user._id, role: user.role, grade_id, subject_id }, 'test');
                     let updateUser = await userService.updateUser(user, { auth: token })
                     return Response.sendJsonResponse(req, res, 200, { auth: token }, "Success")
                 } else {

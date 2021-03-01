@@ -10,18 +10,18 @@ var usersRouter = require('./routes/users');
 var subjectRouter = require('./routes/subject');
 var gradeRouter = require('./routes/grade');
 var examRouter = require('./routes/exams')
-
+require('dotenv').config()
 var app = express();
 var cors = require('cors')
-
+console.log(process.env.NODE_ENV)
 // connect to Mongodb 
-mongoose.connect('mongodb://127.0.0.1:27017/roosevelt', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://mitul:mitul1@cluster0-shard-00-00.ly7cv.mongodb.net:27017,cluster0-shard-00-01.ly7cv.mongodb.net:27017,cluster0-shard-00-02.ly7cv.mongodb.net:27017/roosevelt?ssl=true&replicaSet=atlas-12z2uv-shard-0&authSource=admin&retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
   //mongoose.connect('mongodb://root:root@127.0.0.1:27017/happymeter-dev1?authSource=admin', { useMongoClient: true })
   .then(() => {
     console.log(`Succesfully Connected to the Mongodb Database knowledgebase`);
   })
-  .catch(() => {
-    console.log(`Error Connecting to the Mongodb Database at URL knowledgebase`);
+  .catch((erro) => {
+    console.log(`Error Connecting to the Mongodb Database at URL knowledgebase`, erro);
   });
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

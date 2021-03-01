@@ -1,7 +1,8 @@
 const Response = require('../utils/send-response');
 const questionPService = require('../services/question-paper');
 const submittedModel = require('../models/submitted-ans');
-const resultModel = require('../models/exam-result')
+const resultModel = require('../models/exam-result');
+
 exports.createQuestionPaper = async function (req, res, next) {
     try {
         let subjects = await questionPService.createQuestionPaper(req.body)
@@ -17,9 +18,17 @@ exports.createQuestionPaper = async function (req, res, next) {
 
 exports.getQuestionPaper = async function (req, res, next) {
     try {
-        console.log('req.body', req.body)
         let questions = await questionPService.getQuestionPaper(req.body)
-        return Response.sendJsonResponse(req, res, 200, questions, "Success")
+
+        let resObj = { ...req.body, student_id: req.userData._id.toString() }
+        console.log('resObj', resObj)
+        let result = await resultModel.find(resObj)
+        if (result.length > 0 && req.userData.role === 3) {
+            return Response.sendJsonResponse(req, res, 200, result[0], "Success")
+        } else {
+            return Response.sendJsonResponse(req, res, 200, questions, "Success")
+        }
+
     } catch (exception) {
         console.log(exception)
         return Response.sendJsonResponse(req, res, 500, {}, "Failure", exception)
@@ -52,7 +61,8 @@ exports.submitExamForResult = async function (req, res, next) {
             total: answers.length,
             result: count,
             student_id: req.userData._id,
-            subject_id: req.body.subject_id
+            subject_id: req.body.subject_id,
+            grade_id: req.body.grade_id
         }
         let results = await resultModel.create(myResult)
         req.body.student_id = req.userData._id;
@@ -63,3 +73,4 @@ exports.submitExamForResult = async function (req, res, next) {
         return Response.sendJsonResponse(req, res, 500, {}, "Failure", exception)
     }
 }
+

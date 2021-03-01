@@ -4,21 +4,18 @@ import * as actions from '../../actions';
 import { connect } from 'react-redux';
 
 import {
-    List, Avatar,
+    List,
     Card, Spin, Button
 } from 'antd';
 import {
     UserAddOutlined,
-    EditOutlined,
-    DeleteOutlined
 } from '@ant-design/icons';
 
 function Exams(props) {
-    console.log('props', props)
-    const [students, setStudents] = useState([])
+    const [examsList, seExamList] = useState([])
     const [isLoader, setIsLoader] = useState(false)
     useEffect(() => {
-        props.getListOfUser('students')
+        props.getExamsList()
     }, [])
 
     useEffect(() => {
@@ -28,24 +25,21 @@ function Exams(props) {
             setIsLoader(true)
         } else {
             setIsLoader(false)
-            setStudents([])
+            seExamList([])
         }
     }, [props.isPending])
     useEffect(() => {
 
-        if (props?.users.length > 0) {
+        if (props?.examList.length > 0) {
             setIsLoader(false)
-            setStudents(props.users)
+            seExamList(props.examList)
         }
-    }, [props.users])
+    }, [props.examList])
 
     return (
         <>
             <div style={{ marginTop: '10px' }}>
-                <Button style={{ float: 'right' }} type="primary" onClick={() => props.history.push('/user-form/student')}><UserAddOutlined /></Button>
-                <Button style={{ float: 'right', marginRight: '5px' }} type="primary"><EditOutlined /></Button>
-                <Button style={{ float: 'right', marginRight: '5px' }} type="danger"><DeleteOutlined /></Button>
-
+                <Button style={{ float: 'right' }} type="primary" onClick={() => props.history.push('/create-exam')}><UserAddOutlined /></Button>
             </div>
             <div>
                 <h2>Exams</h2>
@@ -55,13 +49,12 @@ function Exams(props) {
                     {!isLoader ? <Card>
                         <List
                             itemLayout="horizontal"
-                            dataSource={students}
+                            dataSource={examsList}
                             renderItem={item => (
                                 <List.Item>
                                     <List.Item.Meta
-                                        avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                        title={<a href="https://ant.design">{item.name}</a>}
-                                        description={item.email}
+                                        title={<a onClick={() => props.history.push(`${props.role === 3 ? '/question-paper' : '/create-question-paper'}/${item._id}/${item.subject_id}/${item.grade_id}`)}>{item.subject}</a>}
+                                        description={item.grade}
                                     />
                                 </List.Item>
                             )}
@@ -82,8 +75,8 @@ function Exams(props) {
 }
 const mapStateToProps = (state) => {
     return {
-        isPending: state.user.isPending,
-        users: state.user.users
+        isPending: state.exam.isPending,
+        examList: state.exam.examList
     }
 };
 

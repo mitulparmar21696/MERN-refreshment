@@ -9,3 +9,12 @@ exports.createExam = async function (exam) {
 
     }
 }
+
+exports.getExams = async function () {
+    try {
+        let examList = await examModel.find();
+        return examList;
+    } catch (exception) {
+
+    }
+}

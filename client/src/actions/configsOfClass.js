@@ -9,17 +9,14 @@ import {
     GET_SUBJECT_ERROR
 } from './types';
 
-const ROOT_URL = 'http://localhost:3000';
-
-const header = {
-    headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-    }
-}
-
-
+import { ROOT_URL } from '../config'
 
 export const getGradeList = () => {
+    const header = {
+        headers: {
+            'Authorization': `${localStorage.getItem('token')}`
+        }
+    }
     return (dispatch) => {
         // submit email/password to the server
         dispatch({ type: GET_GRADE_PENDING })
@@ -43,6 +40,11 @@ export const getGradeList = () => {
 
 
 export const getSubjectList = () => {
+    const header = {
+        headers: {
+            'Authorization': `${localStorage.getItem('token')}`
+        }
+    }
     return (dispatch) => {
         // submit email/password to the server
 

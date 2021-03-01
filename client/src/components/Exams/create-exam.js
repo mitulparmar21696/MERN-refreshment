@@ -72,7 +72,14 @@ function CreateExamForm(props) {
                         placeholder="Select a option and change input text above"
                         allowClear
                     >
-                        {subjects.map((sub) => <Option value={sub._id}>{sub.name}</Option>)}
+                        {subjects.map((sub) => {
+                            if (props.role === 2 && props.subject_id === sub._id) {
+                                return <Option value={sub._id}>{sub.name}</Option>
+                            }
+                            if (props.role === 1) {
+                                return <Option value={sub._id}>{sub.name}</Option>
+                            }
+                        })}
                     </Select>
                 </Form.Item>
 
@@ -89,7 +96,14 @@ function CreateExamForm(props) {
                         placeholder="Select a option and change input text above"
                         allowClear
                     >
-                        {grades.map((gr) => <Option value={gr._id}>{gr.grade}</Option>)}
+                        {grades.map((gr) => {
+                            if (props.role === 2 && props.grade_id === gr._id) {
+                                return <Option value={gr._id} > {gr.grade}</Option>
+                            }
+                            if (props.role === 1) {
+                                return <Option value={gr._id} > {gr.grade}</Option>
+                            }
+                        })}
                     </Select>
                 </Form.Item>
 
@@ -97,12 +111,12 @@ function CreateExamForm(props) {
                     <Button type="primary" htmlType="submit">
                         Submit
         </Button>
-                    <Button type="danger" style={{ marginLeft: '10px' }} htmlType="submit">
+                    <Button type="danger" style={{ marginLeft: '10px' }} onClick={() => props.history.push('/exams')}>
                         Cancel
         </Button>
                 </Form.Item>
             </Form>
-        </div>
+        </div >
     );
 }
 

@@ -8,6 +8,8 @@ import {
     LoginOutlined
 } from '@ant-design/icons';
 import * as actions from '../../actions'
+const jwt = require('jsonwebtoken');
+
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -20,7 +22,11 @@ export default function (ComposedComponent) {
         }
 
         state = {
-            collapsed: false
+            collapsed: false,
+            role: null,
+            selected: '1',
+            grade_id: null,
+            subject_id: null
         }
 
 
@@ -29,37 +35,83 @@ export default function (ComposedComponent) {
 
         };
         componentWillMount() {
+            let token = localStorage.getItem('token')
+            const decode = jwt.verify(token, 'test');
+            this.setState({ role: decode.role, grade_id: decode.grade_id, subject_id: decode.subject_id })
             if (!this.props.authenticated) {
                 this.props.history.push('/signin');
+            }
+            this.selectMenu(this.props.match.path)
+        }
+
+        selectMenu(location) {
+
+            switch (location) {
+                case '/dashboard':
+                    this.setState({ selected: '1' })
+
+                    // code block
+                    break;
+                case '/teachers':
+                    this.setState({ selected: '2' })
+
+                    // code block
+                    break;
+                case '/students':
+                    this.setState({ selected: '3' })
+                    // code block
+                    break;
+                case '/exams':
+                    this.setState({ selected: '4' })
+                    // code block
+                    break;
+                default:
+                    this.setState({ selected: '5' })
+                    break
+                // code block
             }
         }
 
         componentWillUpdate(nextProps) {
             console.log(this.props.match.path)
+            let token = localStorage.getItem('token')
+
+            const decode = jwt.verify(token, 'test');
+            this.setState({ role: decode.role })
             if (!nextProps.authenticated) {
                 this.props.history.push('/signin');
             }
         }
 
         render() {
+            console.log('process', process.env)
             let { collapsed } = this.state;
+
+
             return <Layout style={{ minHeight: '100vh' }}>
                 <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
                     <div className="logo" />
-                    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                    {console.log('this.state.role', this.state.role)}
+                    <Menu theme="dark" defaultSelectedKeys={[this.state.selected]} mode="inline">
                         <Menu.Item onClick={() => this.props.history.push('/teachers')} key="1" icon={<PieChartOutlined />}>
+                            Dashboard
+                  </Menu.Item>
+                        {this.state.role === 1 && <Menu.Item onClick={() => this.props.history.push('/teachers')} key="2" icon={<PieChartOutlined />}>
                             Teachers
-                  </Menu.Item>
-                        <Menu.Item key="2" onClick={() => this.props.history.push('/students')} icon={<DesktopOutlined />}>
+                  </Menu.Item>}
+                        {(this.state.role === 1 || this.state.role === 2) && <Menu.Item key="3" onClick={() => this.props.history.push('/students')} icon={<DesktopOutlined />}>
                             Students
-                  </Menu.Item>
+                  </Menu.Item>}
 
-                        <Menu.Item key="2" onClick={() => this.props.history.push('/exams')} icon={<DesktopOutlined />}>
+                        <Menu.Item key="4" onClick={() => this.props.history.push('/exams')} icon={<DesktopOutlined />}>
                             Exams
                   </Menu.Item>
+                        <Menu.Item key="5" icon={<DesktopOutlined />}>
+                            Others
+                  </Menu.Item>
 
 
-                        <Menu.Item key="2" onClick={() => {
+                        <Menu.Item key="6" onClick={() => {
                             localStorage.removeItem('token')
                             this.props.signoutUser()
                             this.props.history.push('/signin')
@@ -72,7 +124,7 @@ export default function (ComposedComponent) {
                 <Layout className="site-layout">
                     <Header className="site-layout-background" style={{ padding: 0 }} />
                     <Content style={{ margin: '0 16px' }}>
-                        <ComposedComponent {...this.props} />
+                        <ComposedComponent {...this.props} role={this.state.role} grade_id={this.state.grade_id} subject_id={this.state.subject_id} />
                     </Content>
                     {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
                 </Layout>

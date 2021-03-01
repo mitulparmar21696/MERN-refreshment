@@ -23,6 +23,7 @@ const tailLayout = {
 
 
 function UsersForm(props) {
+
     const [grades, setGrades] = useState([])
 
     const [subjects, setSubjects] = useState([])
@@ -37,15 +38,19 @@ function UsersForm(props) {
         }
     }, [props.grades])
     useEffect(() => {
-
         if (props?.subjects?.length > 0) {
-
             setSubjects(props?.subjects)
         }
     }, [props.subjects])
     const [form] = Form.useForm();
     const onFinish = (values) => {
-        debugger
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if (!re.test(String(values.email).toLowerCase())) {
+            message.info('invalid email')
+            return
+        }
+
 
         if (values.selected_subject) {
             var arr = []
@@ -54,9 +59,8 @@ function UsersForm(props) {
             });
             values.selected_subject = arr;
         }
-
         values.role = Number(values.role)
-        props.createUser(values)
+        props.createUser(values, props.match.params.type)
         console.log(values);
     };
 
@@ -110,8 +114,8 @@ function UsersForm(props) {
                         placeholder="Select a option and change input text above"
                         allowClear
                     >
-                        <Option value="2">Teacher</Option>
-                        <Option value="3">Student</Option>
+                        {props.match.params.type === 'teacher' && <Option value="2">Teacher</Option>}
+                        {props.match.params.type === 'student' && <Option value="3">Student</Option>}
                     </Select>
                 </Form.Item>
                 <Form.Item
@@ -120,7 +124,6 @@ function UsersForm(props) {
                 >
                     {({ getFieldValue }) =>
                         getFieldValue('role') === '2' ? (
-
                             <Form.Item
                                 name="subject_id"
                                 label="Subject"
@@ -135,7 +138,6 @@ function UsersForm(props) {
                                     allowClear
                                 >
                                     {subjects.map((sub) => <Option value={sub._id}>{sub.name}</Option>)}
-                                    <Option value="3">Student</Option>
                                 </Select>
                             </Form.Item>
                         ) : null
@@ -183,7 +185,10 @@ function UsersForm(props) {
                         placeholder="Select a option and change input text above"
                         allowClear
                     >
-                        {grades.map((gr) => <Option value={gr._id}>{gr.grade}</Option>)}
+                        {grades.map((gr) => {
+
+                            return <Option value={gr._id}>{gr.grade}</Option>
+                        })}
                     </Select>
                 </Form.Item>
 

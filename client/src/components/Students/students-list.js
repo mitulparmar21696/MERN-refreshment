@@ -43,8 +43,6 @@ function Students(props) {
         <>
             <div style={{ marginTop: '10px' }}>
                 <Button style={{ float: 'right' }} type="primary" onClick={() => props.history.push('/user-form/student')}><UserAddOutlined /></Button>
-                <Button style={{ float: 'right', marginRight: '5px' }} type="primary"><EditOutlined /></Button>
-                <Button style={{ float: 'right', marginRight: '5px' }} type="danger"><DeleteOutlined /></Button>
 
             </div>
             <div>

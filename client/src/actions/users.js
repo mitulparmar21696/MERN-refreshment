@@ -1,5 +1,6 @@
 import axios from 'axios';
 import History from '../history.js';
+import { message } from 'antd';
 import {
     AUTH_USER,
     UNAUTH_USER,
@@ -12,12 +13,8 @@ import {
     GET_USER_ERROR
 } from './types';
 
-const ROOT_URL = 'http://localhost:3000';
-const header = {
-    headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-    }
-}
+import { ROOT_URL } from '../config'
+
 
 export const signinUser = ({ email, password }) => {
 
@@ -34,10 +31,10 @@ export const signinUser = ({ email, password }) => {
                 localStorage.setItem('token', response.data.data.auth);
 
                 // - redirect to the route '/feature'
-                History.push('/feature');
+
 
             }).catch(() => {
-
+                History.push('/signin')
                 // if request is bad...
                 // - show an error to the user
                 dispatch(authError('Bad Login Info'));
@@ -67,9 +64,14 @@ export const signoutUser = () => {
 
 
 
-export const createUser = (user) => {
+export const createUser = (user, type) => {
 
     return (dispatch) => {
+        const header = {
+            headers: {
+                'Authorization': `${localStorage.getItem('token')}`
+            }
+        }
         // submit email/password to the server
         axios.post(`${ROOT_URL}/users/create`, user, header)
             .then(response => {
@@ -77,9 +79,9 @@ export const createUser = (user) => {
                 // if request is good...
                 // - update state to indicate user is authenticated
                 dispatch({ type: USER_CREATE_SUCCESS });
-
+                message.success('saved')
                 // - redirect to the route '/feature'
-                History.push('/dashboard');
+                History.push(`/${type}s`);
 
             }).catch(() => {
 
@@ -93,7 +95,11 @@ export const createUser = (user) => {
 export const getListOfUser = (userType) => {
     return (dispatch) => {
         // submit email/password to the server
-
+        const header = {
+            headers: {
+                'Authorization': `${localStorage.getItem('token')}`
+            }
+        }
         dispatch({ type: GET_USER_PENDING })
         axios.get(`${ROOT_URL}/users/${userType}`, header)
             .then(response => {

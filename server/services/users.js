@@ -1,6 +1,7 @@
 const userModel = require('../models/users');
 const teacherModel = require('../models/teacher');
 const studentModel = require('../models/student');
+var mongoose = require('mongoose');
 
 exports.createUser = async function (user) {
     try {
@@ -43,7 +44,7 @@ exports.findUser = async function (user) {
 exports.updateUser = async function (user, updatableDetail) {
     try {
 
-        let userDetails = await userModel.updateOne({ _id: user._id }, updatableDetail);
+        let userDetails = await userModel.updateOne({ _id: mongoose.Types.ObjectId(user._id) }, updatableDetail);
         return userDetails;
     } catch (exception) {
 

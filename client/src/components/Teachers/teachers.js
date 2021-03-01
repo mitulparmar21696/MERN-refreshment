@@ -7,9 +7,7 @@ import {
     Card, Spin, Button
 } from 'antd';
 import {
-    UserAddOutlined,
-    EditOutlined,
-    DeleteOutlined
+    UserAddOutlined
 } from '@ant-design/icons';
 
 function Teachers(props) {
@@ -24,11 +22,14 @@ function Teachers(props) {
         if (props?.isPending) {
 
             setIsLoader(true)
+        } else {
+            setIsLoader(false)
         }
     }, [props.isPending])
     useEffect(() => {
 
-        if (props?.users.length > 0) {
+        if (props?.users.length) {
+
             setIsLoader(false)
             setTeachers(props.users)
         }
@@ -38,9 +39,6 @@ function Teachers(props) {
         <>
             <div style={{ marginTop: '10px' }}>
                 <Button style={{ float: 'right' }} type="primary" onClick={() => props.history.push('/user-form/teacher')}><UserAddOutlined /></Button>
-                <Button style={{ float: 'right', marginRight: '5px' }} type="primary"><EditOutlined /></Button>
-                <Button style={{ float: 'right', marginRight: '5px' }} type="danger"><DeleteOutlined /></Button>
-
             </div>
             <div>
                 <h2>Teachers</h2>
@@ -66,9 +64,7 @@ function Teachers(props) {
                             <div className="example">
                                 <Spin />
                             </div>
-
                         </Card>}
-
                 </div>
 
             </div>

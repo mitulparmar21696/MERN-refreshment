@@ -6,6 +6,7 @@ var examResultSchema = new mongoose.Schema({
     result: String,
     student_id: String,
     subject_id: String,
+    grade_id: String
 
 }, {
     collection: 'exams_result'
