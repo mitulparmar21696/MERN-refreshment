@@ -42,7 +42,10 @@ function Teachers(props) {
                 <Button style={{ float: 'right', marginRight: '5px' }} type="danger"><DeleteOutlined /></Button>
 
             </div>
-            <div style={{ marginTop: '50px' }}>
+            <div>
+                <h2>Teachers</h2>
+            </div>
+            <div style={{ marginTop: '40px' }}>
                 <div>
                     {!isLoader ? <Card>
                         <List

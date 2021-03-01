@@ -21,3 +21,12 @@ export const GET_GRADE_ERROR = 'get_grade_error'
 export const GET_SUBJECT_PENDING = 'get_subject_pending'
 export const GET_SUBJECT_SUCCESS = 'get_subject_success'
 export const GET_SUBJECT_ERROR = 'get_subject_error'
+
+
+export const CREATE_EXAM_PENDING = 'create_exam_pending'
+export const CREATE_EXAM_SUCCESS = 'create_exam_success'
+export const CREATE_EXAM_ERROR = 'create_exam_error'
+
+export const GET_EXAM_PENDING = 'create_exam_pending'
+export const GET_EXAM_SUCCESS = 'create_exam_success'
+export const GET_EXAM_ERROR = 'create_exam_error'

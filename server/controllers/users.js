@@ -32,7 +32,7 @@ exports.createUsers = async function (req, res, next) {
                 let studentDetails = {
                     grade_id: userDetails.grade_id,
                     user_id: user._id,
-                    selected_subjects: []
+                    selected_subjects: userDetails.selected_subject
                 }
                 student = await userService.createStudents(studentDetails)
             }

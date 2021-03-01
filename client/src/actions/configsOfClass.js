@@ -11,12 +11,19 @@ import {
 
 const ROOT_URL = 'http://localhost:3000';
 
+const header = {
+    headers: {
+        'Authorization': `${localStorage.getItem('token')}`
+    }
+}
+
+
 
 export const getGradeList = () => {
     return (dispatch) => {
         // submit email/password to the server
         dispatch({ type: GET_GRADE_PENDING })
-        axios.get(`${ROOT_URL}/grades`)
+        axios.get(`${ROOT_URL}/grades`, header)
             .then(response => {
                 // if request is good...
                 // - update state to indicate user is authenticated
@@ -40,7 +47,7 @@ export const getSubjectList = () => {
         // submit email/password to the server
 
         dispatch({ type: GET_SUBJECT_PENDING })
-        axios.get(`${ROOT_URL}/subject`)
+        axios.get(`${ROOT_URL}/subject`, header)
             .then(response => {
 
                 // if request is good...

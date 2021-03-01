@@ -13,6 +13,11 @@ import {
 } from './types';
 
 const ROOT_URL = 'http://localhost:3000';
+const header = {
+    headers: {
+        'Authorization': `${localStorage.getItem('token')}`
+    }
+}
 
 export const signinUser = ({ email, password }) => {
 
@@ -60,26 +65,13 @@ export const signoutUser = () => {
     return { type: UNAUTH_USER };
 };
 
-export const fetchFeature = () => {
-    return (dispatch) => {
-        axios.get(ROOT_URL, {
-            headers: { authorization: localStorage.getItem('token') }
-        })
-            .then(response => {
-                dispatch({
-                    type: FETCH_FEATURE,
-                    payload: response.data
-                });
-            });
-    };
-};
 
 
 export const createUser = (user) => {
 
     return (dispatch) => {
         // submit email/password to the server
-        axios.post(`${ROOT_URL}/users/create`, user)
+        axios.post(`${ROOT_URL}/users/create`, user, header)
             .then(response => {
 
                 // if request is good...
@@ -103,7 +95,7 @@ export const getListOfUser = (userType) => {
         // submit email/password to the server
 
         dispatch({ type: GET_USER_PENDING })
-        axios.get(`${ROOT_URL}/users/${userType}`)
+        axios.get(`${ROOT_URL}/users/${userType}`, header)
             .then(response => {
                 // if request is good...
                 // - update state to indicate user is authenticated

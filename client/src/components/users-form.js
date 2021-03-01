@@ -45,6 +45,15 @@ function UsersForm(props) {
     }, [props.subjects])
     const [form] = Form.useForm();
     const onFinish = (values) => {
+        debugger
+
+        if (values.selected_subject) {
+            var arr = []
+            values.selected_subject.forEach(element => {
+                arr.push({ subject_id: element })
+            });
+            values.selected_subject = arr;
+        }
 
         values.role = Number(values.role)
         props.createUser(values)
@@ -127,6 +136,34 @@ function UsersForm(props) {
                                 >
                                     {subjects.map((sub) => <Option value={sub._id}>{sub.name}</Option>)}
                                     <Option value="3">Student</Option>
+                                </Select>
+                            </Form.Item>
+                        ) : null
+                    }
+                </Form.Item>
+
+                <Form.Item
+                    noStyle
+                    shouldUpdate={(prevValues, currentValues) => prevValues.role !== currentValues.role}
+                >
+                    {({ getFieldValue }) =>
+                        getFieldValue('role') === '3' ? (
+
+                            <Form.Item
+                                name="selected_subject"
+                                label="Subject"
+                                rules={[
+                                    {
+                                        required: true,
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    placeholder="Select a option and change input text above"
+                                    allowClear
+                                    mode="multiple"
+                                >
+                                    {subjects.map((sub) => <Option value={sub._id}>{sub.name}</Option>)}
                                 </Select>
                             </Form.Item>
                         ) : null

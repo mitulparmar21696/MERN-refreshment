@@ -53,6 +53,12 @@ export default function (ComposedComponent) {
                         <Menu.Item key="2" onClick={() => this.props.history.push('/students')} icon={<DesktopOutlined />}>
                             Students
                   </Menu.Item>
+
+                        <Menu.Item key="2" onClick={() => this.props.history.push('/exams')} icon={<DesktopOutlined />}>
+                            Exams
+                  </Menu.Item>
+
+
                         <Menu.Item key="2" onClick={() => {
                             localStorage.removeItem('token')
                             this.props.signoutUser()

@@ -11,11 +11,15 @@ import {
 
 } from './configsOfClass'
 
+import {
+    createExam
+} from './exam'
 export {
     signinUser,
     createUser,
     getListOfUser,
     signoutUser,
     getGradeList,
-    getSubjectList
+    getSubjectList,
+    createExam
 }

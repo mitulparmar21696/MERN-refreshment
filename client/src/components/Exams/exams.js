@@ -13,7 +13,7 @@ import {
     DeleteOutlined
 } from '@ant-design/icons';
 
-function Students(props) {
+function Exams(props) {
     console.log('props', props)
     const [students, setStudents] = useState([])
     const [isLoader, setIsLoader] = useState(false)
@@ -48,7 +48,7 @@ function Students(props) {
 
             </div>
             <div>
-                <h2>Students</h2>
+                <h2>Exams</h2>
             </div>
             <div style={{ marginTop: '40px' }}>
                 <div>
@@ -87,4 +87,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, actions)(Students);
+export default connect(mapStateToProps, actions)(Exams);
