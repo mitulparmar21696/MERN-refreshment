@@ -39,10 +39,11 @@ export default function (ComposedComponent) {
             if (token) {
                 const decode = jwt.verify(token, 'test');
                 this.setState({ role: decode.role, grade_id: decode.grade_id, subject_id: decode.subject_id })
-                if (!this.props.authenticated) {
-                    this.props.history.push('/signin');
-                }
             }
+            if (!this.props.authenticated) {
+                this.props.history.push('/signin');
+            }
+
             this.selectMenu(this.props.match.path)
         }
 
