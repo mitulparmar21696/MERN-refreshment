@@ -36,10 +36,12 @@ export default function (ComposedComponent) {
         };
         componentWillMount() {
             let token = localStorage.getItem('token')
-            const decode = jwt.verify(token, 'test');
-            this.setState({ role: decode.role, grade_id: decode.grade_id, subject_id: decode.subject_id })
-            if (!this.props.authenticated) {
-                this.props.history.push('/signin');
+            if (token) {
+                const decode = jwt.verify(token, 'test');
+                this.setState({ role: decode.role, grade_id: decode.grade_id, subject_id: decode.subject_id })
+                if (!this.props.authenticated) {
+                    this.props.history.push('/signin');
+                }
             }
             this.selectMenu(this.props.match.path)
         }
@@ -73,11 +75,6 @@ export default function (ComposedComponent) {
         }
 
         componentWillUpdate(nextProps) {
-            console.log(this.props.match.path)
-            let token = localStorage.getItem('token')
-
-            const decode = jwt.verify(token, 'test');
-            this.setState({ role: decode.role })
             if (!nextProps.authenticated) {
                 this.props.history.push('/signin');
             }
