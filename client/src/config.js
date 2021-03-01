@@ -1,1 +1,1 @@
-export const ROOT_URL = 'http://65.0.31.110:3001';
+export const ROOT_URL = 'http://13.126.38.242:3001';
