@@ -15,16 +15,16 @@ import {
 const ROOT_URL = 'http://localhost:3000';
 
 export const signinUser = ({ email, password }) => {
-    debugger
+
     return (dispatch) => {
         // submit email/password to the server
         axios.post(`${ROOT_URL}/users/sign-in`, { email, password })
             .then(response => {
-                debugger
+
                 // if request is good...
                 // - update state to indicate user is authenticated
                 dispatch({ type: AUTH_USER });
-                debugger
+
                 // - save the jwt token
                 localStorage.setItem('token', response.data.data.auth);
 
@@ -32,7 +32,7 @@ export const signinUser = ({ email, password }) => {
                 History.push('/feature');
 
             }).catch(() => {
-                debugger
+
                 // if request is bad...
                 // - show an error to the user
                 dispatch(authError('Bad Login Info'));
@@ -76,12 +76,12 @@ export const fetchFeature = () => {
 
 
 export const createUser = (user) => {
-    debugger
+
     return (dispatch) => {
         // submit email/password to the server
         axios.post(`${ROOT_URL}/users/create`, user)
             .then(response => {
-                debugger
+
                 // if request is good...
                 // - update state to indicate user is authenticated
                 dispatch({ type: USER_CREATE_SUCCESS });
@@ -90,7 +90,7 @@ export const createUser = (user) => {
                 History.push('/dashboard');
 
             }).catch(() => {
-                debugger
+
                 // if request is bad...
                 // - show an error to the user
                 dispatch(createUserError('Bad Login Info'));

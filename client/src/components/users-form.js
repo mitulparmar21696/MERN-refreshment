@@ -37,15 +37,15 @@ function UsersForm(props) {
         }
     }, [props.grades])
     useEffect(() => {
-        debugger
+
         if (props?.subjects?.length > 0) {
-            debugger
+
             setSubjects(props?.subjects)
         }
     }, [props.subjects])
     const [form] = Form.useForm();
     const onFinish = (values) => {
-        debugger
+
         values.role = Number(values.role)
         props.createUser(values)
         console.log(values);

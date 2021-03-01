@@ -24,7 +24,7 @@ function Students(props) {
     useEffect(() => {
 
         if (props?.isPending) {
-            debugger
+
             setIsLoader(true)
         } else {
             setIsLoader(false)
@@ -32,7 +32,7 @@ function Students(props) {
         }
     }, [props.isPending])
     useEffect(() => {
-        debugger
+
         if (props?.users.length > 0) {
             setIsLoader(false)
             setStudents(props.users)

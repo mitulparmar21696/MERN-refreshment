@@ -21,10 +21,9 @@ const tailLayout = {
 
 
 function SignIn(props) {
-  console.log('props', props)
 
   useEffect(() => {
-    debugger
+
     if (props.authenticated) {
       props.history.push('./dashboard')
     }

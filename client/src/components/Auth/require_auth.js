@@ -25,7 +25,6 @@ export default function (ComposedComponent) {
 
 
         onCollapse = (collapsed) => {
-            console.log(this.props);
             this.setState({ collapsed })
 
         };
@@ -36,6 +35,7 @@ export default function (ComposedComponent) {
         }
 
         componentWillUpdate(nextProps) {
+            console.log(this.props.match.path)
             if (!nextProps.authenticated) {
                 this.props.history.push('/signin');
             }

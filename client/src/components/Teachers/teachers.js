@@ -22,12 +22,12 @@ function Teachers(props) {
     useEffect(() => {
 
         if (props?.isPending) {
-            debugger
+
             setIsLoader(true)
         }
     }, [props.isPending])
     useEffect(() => {
-        debugger
+
         if (props?.users.length > 0) {
             setIsLoader(false)
             setTeachers(props.users)

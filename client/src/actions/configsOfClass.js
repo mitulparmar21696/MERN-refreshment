@@ -42,7 +42,7 @@ export const getSubjectList = () => {
         dispatch({ type: GET_SUBJECT_PENDING })
         axios.get(`${ROOT_URL}/subject`)
             .then(response => {
-                debugger
+
                 // if request is good...
                 // - update state to indicate user is authenticated
                 dispatch({ type: GET_SUBJECT_SUCCESS, payload: response.data.data })
